@@ -1,0 +1,109 @@
+<style>
+    .innova-whatsapp-help {
+        position: fixed;
+        z-index: 1050;
+        right: 1.25rem;
+        bottom: 5rem;
+        display: none;
+        align-items: center;
+        gap: 0.65rem;
+        padding: 0.8rem 1.1rem;
+        color: #fff;
+        background: #128c4a;
+        border-radius: 999px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+        font-weight: 600;
+        text-decoration: none;
+        transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+    }
+    .innova-whatsapp-help:hover,
+    .innova-whatsapp-help:focus {
+        color: #fff;
+        background: #0d713b;
+        text-decoration: none;
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+        transform: translateY(-2px);
+    }
+    .innova-whatsapp-help:focus-visible {
+        outline: 3px solid #202938;
+        outline-offset: 3px;
+    }
+    .innova-whatsapp-help .fa {
+        font-size: 1.35rem;
+    }
+    .swal2-popup.innova-help-dialog {
+        border-radius: 1.15rem;
+        box-shadow: 0 24px 60px rgba(24, 27, 48, 0.19);
+    }
+    @media (max-width: 575.98px) {
+        .innova-whatsapp-help {
+            right: 1rem;
+            bottom: 5rem;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .innova-whatsapp-help {
+            transition: none;
+        }
+        .innova-whatsapp-help:hover,
+        .innova-whatsapp-help:focus {
+            transform: none;
+        }
+    }
+</style>
+<a class="innova-whatsapp-help"
+   href="https://wa.me/595991587437"
+   rel="noopener noreferrer">
+    <i class="fa fa-whatsapp" aria-hidden="true"></i>
+    <span>Solicitar ayuda</span>
+</a>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const button = document.querySelector('.innova-whatsapp-help');
+        const url = new URL(window.location.href);
+        const isCourseHome = url.pathname.endsWith('/course/view.php') && url.searchParams.get('id') !== '1';
+        const isCourseContent = (document.body.classList.contains('path-mod') ||
+            document.body.classList.contains('path-course-section')) &&
+            Array.from(document.body.classList).some(function(name) {
+                return /^course-([2-9]|[1-9][0-9]+)$/.test(name);
+            });
+        if (!button || (!isCourseHome && !isCourseContent)) {
+            return;
+        }
+
+        const heading = isCourseHome
+            ? document.querySelector('.page-context-header .page-header-headings h1')
+            : document.querySelector('#courseindexdrawerheading a');
+        const courseName = heading && heading.textContent.replace(/\s+/g, ' ').trim();
+        if (!courseName) {
+            return;
+        }
+
+        const message = 'Hola, tengo una consulta con mi curso de ' + courseName + '.';
+        button.href = 'https://wa.me/595991587437?text=' + encodeURIComponent(message);
+        button.style.display = 'inline-flex';
+        const sweetalert = import('/innova/vendor/sweetalert2/sweetalert2.esm.all.min.js');
+
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            sweetalert.then(function(module) {
+                return module.default.fire({
+                    title: 'Solicitud de ayuda',
+                    text: 'Tu consulta sobre "' + courseName + '" está preparada. Pulsa Enviar en WhatsApp y pronto nos pondremos en contacto contigo.',
+                    icon: 'info',
+                    customClass: { popup: 'innova-help-dialog' },
+                    confirmButtonText: 'Abrir WhatsApp',
+                    confirmButtonColor: '#128c4a',
+                    showCancelButton: true,
+                    cancelButtonText: 'Cancelar'
+                });
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    window.location.assign(button.href);
+                }
+            }).catch(function() {
+                window.location.assign(button.href);
+            });
+        });
+    });
+</script>

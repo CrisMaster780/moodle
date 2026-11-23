@@ -1,0 +1,402 @@
+// Innova's shared visual language. Boost compiles and caches this with the theme.
+:root {
+    --innova-ink: #24243a;
+    --innova-muted: #62677a;
+    --innova-accent: #5b38b6;
+    --innova-accent-dark: #46269a;
+    --innova-surface: #ffffff;
+    --innova-canvas: #f7f8fc;
+    --innova-border: #e5e7f0;
+}
+
+body:not(.pagelayout-login) {
+    color: var(--innova-ink);
+    background: var(--innova-canvas);
+
+    #page {
+        background: var(--innova-canvas);
+    }
+
+    .navbar.fixed-top {
+        background: rgba(255, 255, 255, 0.97) !important;
+        border-bottom: 1px solid var(--innova-border);
+        box-shadow: 0 5px 24px rgba(31, 31, 61, 0.06);
+        backdrop-filter: blur(12px);
+    }
+
+    .navbar.fixed-top .navbar-brand,
+    .navbar.fixed-top .navbar-brand .sitename {
+        color: var(--innova-ink);
+        font-weight: 800;
+        letter-spacing: -0.035em;
+    }
+
+    .navbar.fixed-top .nav-link {
+        transition: color 180ms ease, background-color 180ms ease;
+    }
+
+    .navbar.fixed-top .nav-link:hover,
+    .navbar.fixed-top .nav-link:focus-visible {
+        color: var(--innova-accent-dark);
+        background: #f1edfb;
+    }
+
+    .secondary-navigation .nav-link {
+        font-weight: 650;
+        transition: color 180ms ease, border-color 180ms ease;
+    }
+
+    .secondary-navigation .nav-link.active,
+    .secondary-navigation .nav-link:hover {
+        color: var(--innova-accent-dark);
+        border-bottom-color: var(--innova-accent);
+    }
+
+    #page-header h1 {
+        color: var(--innova-ink);
+        font-weight: 760;
+        letter-spacing: -0.035em;
+    }
+
+    #region-main .card,
+    #region-main .block {
+        border: 1px solid var(--innova-border);
+        border-radius: 1rem;
+        box-shadow: 0 6px 24px rgba(31, 31, 61, 0.035);
+    }
+
+    .course-card {
+        overflow: hidden;
+        border: 1px solid var(--innova-border);
+        border-radius: 1rem;
+        box-shadow: 0 7px 22px rgba(31, 31, 61, 0.055);
+        transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+    }
+
+    .course-card:hover,
+    .course-card:focus-within {
+        transform: translateY(-4px);
+        border-color: #cbbdef;
+        box-shadow: 0 16px 36px rgba(57, 40, 104, 0.12);
+    }
+
+    .course-card .card-img-top {
+        transition: transform 350ms ease;
+    }
+
+    .course-card:hover .card-img-top,
+    .course-card:focus-within .card-img-top {
+        transform: scale(1.035);
+    }
+
+    .course-card .coursename {
+        color: var(--innova-ink);
+        font-weight: 700;
+    }
+
+    .progress-bar {
+        background-color: var(--innova-accent);
+    }
+
+    .btn {
+        border-radius: 0.7rem;
+        font-weight: 650;
+        transition: transform 180ms ease, box-shadow 180ms ease,
+            color 180ms ease, background-color 180ms ease, border-color 180ms ease;
+    }
+
+    .btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+    }
+
+    .btn:active:not(:disabled) {
+        transform: translateY(0);
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: var(--innova-accent);
+        border-color: var(--innova-accent);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+        color: #fff;
+        background-color: var(--innova-accent-dark);
+        border-color: var(--innova-accent-dark);
+        box-shadow: 0 7px 18px rgba(91, 56, 182, 0.18);
+    }
+
+    .btn-outline-secondary {
+        border-color: #c8cbd8;
+    }
+
+    .btn-outline-secondary:hover,
+    .btn-outline-secondary:focus-visible {
+        color: var(--innova-accent-dark);
+        background: #f1edfb;
+        border-color: #b8a3e4;
+    }
+
+    .form-control,
+    .form-select {
+        border-color: #d8dce8;
+        border-radius: 0.7rem;
+        transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--innova-accent);
+        box-shadow: 0 0 0 0.2rem rgba(91, 56, 182, 0.14);
+    }
+
+    .dropdown-menu,
+    .modal-content {
+        border-color: var(--innova-border);
+        border-radius: 1rem;
+        box-shadow: 0 18px 45px rgba(31, 31, 61, 0.13);
+    }
+
+    .dropdown-item {
+        transition: color 160ms ease, background-color 160ms ease;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        color: var(--innova-accent-dark);
+        background: #f1edfb;
+    }
+
+    #theme_boost-drawers-courseindex,
+    #theme_boost-drawers-blocks {
+        background: #f7f7fc;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+        outline: 3px solid #8063cf;
+        outline-offset: 3px;
+    }
+}
+
+body#page-my-index:not(.editing) {
+    .main-inner {
+        max-width: 1160px;
+    }
+
+    #page-header {
+        position: relative;
+        overflow: hidden;
+        padding: clamp(1.75rem, 4vw, 3rem);
+        color: #fff;
+        background: linear-gradient(115deg, #171b32 0%, #29204b 72%, #503291 100%);
+        border: 1px solid #3f3468;
+        border-radius: 1.25rem;
+    }
+
+    #page-header::after {
+        position: absolute;
+        top: -7rem;
+        right: -5rem;
+        width: 25rem;
+        height: 25rem;
+        background: radial-gradient(circle, rgba(194, 169, 255, 0.22), transparent 68%);
+        border-radius: 50%;
+        content: "";
+        pointer-events: none;
+    }
+
+    #page-header h1 {
+        position: relative;
+        z-index: 1;
+        color: #fff;
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .innova-dashboard-intro {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+        gap: 1.5rem;
+        align-items: end;
+        margin-top: 0.6rem;
+    }
+
+    .innova-dashboard-intro__copy p {
+        max-width: 36rem;
+        margin-bottom: 1.4rem;
+        color: #e5e0f4;
+        font-size: 1.05rem;
+        line-height: 1.55;
+    }
+
+    .innova-dashboard-intro__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+    }
+
+    .innova-dashboard-intro__actions a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 2.7rem;
+        padding: 0.55rem 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.65);
+        border-radius: 0.7rem;
+        color: #fff;
+        font-weight: 700;
+        text-decoration: none;
+        transition: background-color 180ms ease, transform 180ms ease;
+    }
+
+    .innova-dashboard-intro__actions a:first-child {
+        border-color: #fff;
+        background: #fff;
+        color: #292044;
+    }
+
+    .innova-dashboard-intro__actions a:hover {
+        background: rgba(255, 255, 255, 0.18);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+
+    .innova-dashboard-intro__actions a:first-child:hover {
+        background: #eee8ff;
+        color: #292044;
+    }
+
+    .innova-dashboard-next {
+        padding: 1.15rem;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.11);
+        backdrop-filter: blur(8px);
+    }
+
+    .innova-dashboard-next__label {
+        display: block;
+        margin-bottom: 0.55rem;
+        color: #ded3fa;
+        font-size: 0.73rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+
+    .innova-dashboard-next__title {
+        display: block;
+        min-height: 2.8rem;
+        color: #fff;
+        font-size: 1.12rem;
+        font-weight: 750;
+        line-height: 1.3;
+        text-decoration: none;
+    }
+
+    .innova-dashboard-next__title:hover {
+        color: #f0e9ff;
+        text-decoration: underline;
+    }
+
+    .innova-dashboard-next__detail {
+        display: block;
+        margin-top: 0.5rem;
+        color: #ded3fa;
+        font-size: 0.86rem;
+    }
+
+    .block_myoverview .card-grid > .col {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+
+    .block_myoverview .course-card {
+        min-height: 100%;
+    }
+
+    .block_myoverview .course-card .card-img-top {
+        height: 11rem;
+        object-fit: cover;
+    }
+
+    .block_myoverview .card-grid {
+        margin-top: 0.75rem;
+    }
+
+    .block_myoverview .course-card .progress-text {
+        color: var(--innova-accent-dark);
+        font-weight: 750;
+    }
+
+    #region-main .block {
+        background: var(--innova-surface);
+        transition: box-shadow 220ms ease, border-color 220ms ease;
+    }
+
+    #region-main .block:hover {
+        border-color: #d9d0f1;
+        box-shadow: 0 12px 30px rgba(57, 40, 104, 0.07);
+    }
+}
+
+@media (max-width: 767.98px) {
+    body#page-my-index:not(.editing) {
+        .innova-dashboard-intro {
+            grid-template-columns: 1fr;
+        }
+        .block_myoverview .card-grid > .col {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+}
+
+@keyframes innova-enter {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+body#page-my-index:not(.editing) #page-header,
+body#page-my-index:not(.editing) #region-main .block,
+body:not(.pagelayout-login) .course-card,
+body.path-course-view:not(.editing) .innova-course-hero {
+    animation: innova-enter 400ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+}
+
+body#page-my-index:not(.editing) #region-main .block:nth-of-type(2),
+body:not(.pagelayout-login) .course-card:nth-child(2) {
+    animation-delay: 70ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body#page-my-index:not(.editing) #page-header,
+    body#page-my-index:not(.editing) #region-main .block,
+    body:not(.pagelayout-login) .course-card,
+    body.path-course-view:not(.editing) .innova-course-hero {
+        animation: none;
+    }
+
+    body:not(.pagelayout-login) .btn,
+    body:not(.pagelayout-login) .course-card,
+    body:not(.pagelayout-login) .course-card .card-img-top,
+    body:not(.pagelayout-login) .form-control,
+    body:not(.pagelayout-login) .form-select {
+        transition: none;
+    }
+    body#page-my-index:not(.editing) .innova-dashboard-intro__actions a {
+        transition: none;
+    }
+    body#page-my-index:not(.editing) .innova-dashboard-intro__actions a:hover {
+        transform: none;
+    }
+}

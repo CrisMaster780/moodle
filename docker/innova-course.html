@@ -1,0 +1,313 @@
+<style>
+    body.path-course-view:not(.editing) #page-header {
+        padding: clamp(1.5rem, 4vw, 2.75rem);
+        color: #fff;
+        background: linear-gradient(120deg, #171b32 0%, #29204b 100%);
+        border-radius: 1.25rem;
+    }
+    body.path-course-view:not(.editing) #page-header h1 {
+        max-width: 19ch;
+        color: #fff;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 750;
+        line-height: 1.12;
+        letter-spacing: -0.035em;
+    }
+    body.path-course-view:not(.editing) #page-header .page-context-header {
+        margin-bottom: 0 !important;
+    }
+    .innova-course-hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 1.5rem;
+        align-items: center;
+        margin: 1.25rem 0 2rem;
+        padding: clamp(1.25rem, 3vw, 2rem);
+        color: #222438;
+        background: #f2f0fa;
+        border: 1px solid #e5def8;
+        border-radius: 1.15rem;
+    }
+    .innova-course-hero__eyebrow {
+        margin: 0 0 0.45rem;
+        color: #59419a;
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+    }
+    .innova-course-hero h2 {
+        margin: 0 0 0.4rem;
+        font-size: clamp(1.25rem, 3vw, 1.8rem);
+        font-weight: 750;
+        letter-spacing: -0.025em;
+    }
+    .innova-course-hero p {
+        margin: 0;
+        color: #55576d;
+    }
+    .innova-course-hero__stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.65rem;
+        margin-top: 1.15rem;
+    }
+    .innova-course-hero__stats span {
+        padding: 0.35rem 0.65rem;
+        color: #42326b;
+        background: #fff;
+        border: 1px solid #e5def8;
+        border-radius: 999px;
+        font-size: 0.84rem;
+        font-weight: 650;
+    }
+    .innova-course-hero__start {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 3rem;
+        padding: 0.75rem 1.2rem;
+        color: #fff;
+        background: #5b38b6;
+        border-radius: 0.7rem;
+        font-weight: 700;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+    }
+    .innova-course-hero__start:hover,
+    .innova-course-hero__start:focus {
+        color: #fff;
+        background: #46269a;
+        text-decoration: none;
+        box-shadow: 0 9px 20px rgba(91, 56, 182, 0.2);
+        transform: translateY(-2px);
+    }
+    body.path-course-view:not(.editing) .course-section {
+        margin-top: 0.9rem;
+    }
+    body.path-course-view:not(.editing) .course-section > .section-item {
+        overflow: hidden;
+        border-color: #e4e5ec;
+        border-radius: 1rem;
+        box-shadow: 0 3px 14px rgba(25, 29, 54, 0.035);
+        transition: border-color 220ms ease, box-shadow 220ms ease;
+    }
+    body.path-course-view:not(.editing) .course-section > .section-item:hover {
+        border-color: #d8cdf1;
+        box-shadow: 0 10px 28px rgba(57, 40, 104, 0.08);
+    }
+    body.path-course-view:not(.editing) .course-section .course-section-header {
+        min-height: 4.4rem;
+        background: #fff;
+    }
+    body.path-course-view:not(.editing) .course-section .sectionname a {
+        color: #222438;
+        font-size: 1.05rem;
+        font-weight: 700;
+    }
+    body.path-course-view:not(.editing) .course-section .section-content-inner {
+        padding: 0 1rem 0.5rem;
+        background: #fff;
+    }
+    body.path-course-view:not(.editing) .course-section .activity {
+        margin-top: 0;
+    }
+    body.path-course-view:not(.editing) .course-section .activity-item {
+        padding: 0.9rem 0.65rem;
+        background: #fff;
+        border: 0;
+        border-bottom: 1px solid #ececf2;
+        border-radius: 0;
+        transition: background-color 180ms ease;
+    }
+    body.path-course-view:not(.editing) .course-section .activity:last-child .activity-item {
+        border-bottom: 0;
+    }
+    body.path-course-view:not(.editing) .course-section .activity-item:hover {
+        background: #f7f5fd;
+    }
+    body.path-course-view:not(.editing) .activity-item .activityname a {
+        color: #29243e;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    .innova-activity-kind {
+        width: fit-content;
+        margin-top: 0.28rem;
+        color: #68657a;
+        font-size: 0.78rem;
+        font-weight: 600;
+    }
+    .innova-section-meta {
+        margin-inline-start: auto;
+        color: #68657a;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+    body.path-course-view:not(.editing) #theme_boost-drawers-courseindex {
+        background: #f8f7fc;
+    }
+    body.path-course-view:not(.editing) #courseindexdrawerheading a {
+        color: #29243e;
+    }
+    body.path-mod-page #region-main video,
+    body.path-mod-resource #region-main video,
+    body.path-mod-page #region-main .video-js,
+    body.path-mod-resource #region-main .video-js {
+        max-width: 100%;
+        background: #11131d;
+        border-radius: 0.75rem;
+    }
+    body.path-mod-page #region-main .activity-header {
+        padding: 0.75rem 1rem;
+        background: #f2f0fa;
+        border: 1px solid #e5def8;
+        border-radius: 0.75rem;
+    }
+    body.path-mod-page #region-main .box.generalbox {
+        margin-top: 1.25rem;
+        padding: clamp(1.25rem, 3vw, 2rem) !important;
+        background: #fff;
+        border: 1px solid #e4e5ec;
+        border-radius: 1rem;
+        box-shadow: 0 3px 14px rgba(25, 29, 54, 0.035);
+    }
+    body.path-mod-page .innova-lesson-video {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        padding: 0.75rem;
+        background: #11131d;
+        border-radius: 0.9rem;
+    }
+    body.path-mod-page .innova-lesson-video video {
+        display: block;
+        width: auto;
+        max-width: 100%;
+        max-height: 70vh;
+        margin: auto;
+    }
+    body.path-mod-page .innova-lesson-video video:fullscreen,
+    body.path-mod-page .innova-lesson-video video:-webkit-full-screen,
+    body.path-mod-page .innova-lesson-video:fullscreen video,
+    body.path-mod-page .innova-lesson-video:-webkit-full-screen video {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain;
+        background: #11131d;
+        border-radius: 0 !important;
+    }
+    body.path-mod-page .innova-lesson-video:fullscreen,
+    body.path-mod-page .innova-lesson-video:-webkit-full-screen {
+        width: 100vw;
+        height: 100vh;
+        padding: 0;
+        border-radius: 0;
+    }
+    @media (max-width: 767.98px) {
+        .innova-course-hero {
+            grid-template-columns: 1fr;
+        }
+        .innova-course-hero__start {
+            width: 100%;
+        }
+        .innova-section-meta {
+            display: none;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .innova-course-hero__start,
+        body.path-course-view:not(.editing) .course-section > .section-item,
+        body.path-course-view:not(.editing) .course-section .activity-item {
+            transition: none;
+        }
+        .innova-course-hero__start:hover,
+        .innova-course-hero__start:focus {
+            transform: none;
+        }
+    }
+</style>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!document.body.classList.contains('path-course-view') || document.body.classList.contains('editing')) {
+            return;
+        }
+
+        const content = document.querySelector('.course-content');
+        if (!content) {
+            return;
+        }
+        const sections = Array.from(content.querySelectorAll('.course-section[data-number]'))
+            .filter(function(section) { return Number(section.dataset.number) > 0; });
+        if (!sections.length) {
+            return;
+        }
+
+        let classCount = 0;
+        let exerciseCount = 0;
+        let firstLesson = null;
+        sections.forEach(function(section) {
+            const activities = Array.from(section.querySelectorAll('li.activity:not(.hiddenactivity)'));
+            activities.forEach(function(activity) {
+                const nameArea = activity.querySelector('.activity-name-area');
+                const link = activity.querySelector('.activityname a');
+                if (!nameArea || !link) {
+                    return;
+                }
+                if (!firstLesson) {
+                    firstLesson = link;
+                }
+
+                const isExercise = activity.classList.contains('modtype_assign') ||
+                    activity.classList.contains('modtype_quiz') ||
+                    activity.classList.contains('modtype_h5pactivity');
+                const isVideo = activity.classList.contains('modtype_file') ||
+                    /v[ií]deo|video/i.test(link.textContent);
+                const kind = isExercise ? 'Ejercicio' : (isVideo ? 'Video' : 'Clase');
+                if (isExercise) {
+                    exerciseCount++;
+                } else {
+                    classCount++;
+                }
+                const badge = document.createElement('span');
+                badge.className = 'innova-activity-kind';
+                badge.textContent = kind;
+                nameArea.appendChild(badge);
+            });
+            const header = section.querySelector('.course-section-header');
+            if (header && activities.length) {
+                const meta = document.createElement('span');
+                meta.className = 'innova-section-meta';
+                meta.textContent = activities.length + (activities.length === 1 ? ' actividad' : ' actividades');
+                header.appendChild(meta);
+            }
+        });
+
+        const hero = document.createElement('section');
+        hero.className = 'innova-course-hero';
+        hero.setAttribute('aria-label', 'Ruta de aprendizaje');
+        hero.innerHTML = '<div><div class="innova-course-hero__eyebrow">Tu ruta de aprendizaje</div>' +
+            '<h2>Aprende a tu ritmo</h2>' +
+            '<p>Recorre las clases en orden y completa los ejercicios para poner en práctica lo aprendido.</p>' +
+            '<div class="innova-course-hero__stats"></div></div>' +
+            '<a class="innova-course-hero__start">Comenzar la primera clase</a>';
+        const stats = hero.querySelector('.innova-course-hero__stats');
+        [sections.length + ' módulos', classCount + ' clases', exerciseCount + ' ejercicios'].forEach(function(label) {
+            const item = document.createElement('span');
+            item.textContent = label;
+            stats.appendChild(item);
+        });
+        const start = hero.querySelector('.innova-course-hero__start');
+        if (firstLesson) {
+            start.href = firstLesson.href;
+        } else {
+            start.remove();
+        }
+        content.prepend(hero);
+    });
+</script>

@@ -1,0 +1,22 @@
+<?php
+unset($CFG);
+$CFG = new stdClass();
+
+$CFG->dbtype = 'pgsql';
+$CFG->dblibrary = 'native';
+$CFG->dbhost = 'db';
+$CFG->dbname = 'moodle';
+$CFG->dbuser = 'moodle';
+$CFG->dbpass = getenv('MOODLE_DB_PASSWORD');
+$CFG->prefix = 'mdl_';
+$CFG->dboptions = ['dbpersist' => false, 'dbport' => '', 'dbsocket' => ''];
+
+$CFG->wwwroot = getenv('MOODLE_WWWROOT') ?: 'http://localhost:8080';
+$CFG->dataroot = '/var/www/moodledata';
+$CFG->directorypermissions = 02770;
+$CFG->routerconfigured = true;
+if (getenv('MOODLE_SSLPROXY') === '1') {
+    $CFG->sslproxy = true;
+}
+
+require_once(__DIR__ . '/public/lib/setup.php');

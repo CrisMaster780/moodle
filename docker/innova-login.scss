@@ -1,0 +1,133 @@
+// Keep the login minimal while sharing Innova's motion and colour language.
+body.pagelayout-login {
+    color-scheme: light;
+
+    #page,
+    #page-content {
+        background: #f7f8fa;
+    }
+
+    #page .login-layout-left {
+        display: none !important;
+    }
+
+    #page .login-layout-right {
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+        min-height: 100vh;
+        padding: clamp(1.25rem, 4vw, 3rem);
+        background: radial-gradient(circle at 15% 15%, #eee9fa, transparent 36%), #f7f8fa;
+    }
+
+    #page .login-layout-right-content {
+        width: 100%;
+        max-width: 440px;
+        margin: auto;
+    }
+
+    #page .login-container {
+        padding: clamp(1.5rem, 4vw, 2.75rem);
+        color: #202938;
+        background: #fff;
+        border: 1px solid #e7e9ee;
+        border-radius: 18px;
+        box-shadow: 0 18px 55px rgba(31, 42, 55, 0.06);
+        animation: innova-enter 450ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+    }
+
+    .loginform::before {
+        content: "INNOVA";
+        display: block;
+        margin-bottom: 2rem;
+        color: #202938;
+        font-size: 1.05rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        line-height: 1;
+    }
+
+    .loginform > h1 {
+        color: #202938;
+        font-size: clamp(1.6rem, 4vw, 1.9rem);
+        font-weight: 650;
+        letter-spacing: -0.035em;
+        line-height: 1.2;
+    }
+
+    .loginform > .text-muted {
+        color: #687386 !important;
+        font-size: 0.95rem;
+    }
+
+    .login-container .login-form .login-input-wrapper .form-control {
+        min-height: 48px;
+        padding-inline-start: 1rem;
+        color: #202938;
+        background: #fff;
+        border-color: #d8dde5;
+        border-radius: 10px;
+    }
+
+    .login-container .login-form .login-input-wrapper .login-input-icon {
+        display: none;
+    }
+
+    .login-container .login-form .login-input-wrapper .form-control::placeholder {
+        color: transparent;
+    }
+
+    .login-container .login-form .login-input-wrapper .form-control:hover,
+    .login-container .login-form .login-input-wrapper .form-control:focus {
+        background: #fff;
+        border-color: #708096;
+    }
+
+    .login-container .login-form .login-input-wrapper .form-control:focus {
+        box-shadow: 0 0 0 3px rgba(32, 41, 56, 0.12);
+    }
+
+    .login-container .login-form .toggle-sensitive-wrapper .toggle-sensitive-btn {
+        background: #fff;
+        border-color: #d8dde5;
+    }
+
+    .loginform #loginbtn {
+        min-height: 48px;
+        color: #fff;
+        background: #202938;
+        border-color: #202938;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .loginform #loginbtn:hover,
+    .loginform #loginbtn:focus {
+        background: #344258;
+        border-color: #344258;
+        box-shadow: 0 8px 18px rgba(32, 41, 56, 0.15);
+        transform: translateY(-1px);
+    }
+
+    .loginform a {
+        color: #344258;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body.pagelayout-login #page .login-container {
+        animation: none;
+    }
+    body.pagelayout-login .loginform #loginbtn {
+        transition: none;
+    }
+}
+
+@media (max-width: 575.98px) {
+    body.pagelayout-login #page .login-container {
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+}

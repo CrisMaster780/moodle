@@ -1,0 +1,85 @@
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.body.id !== 'page-my-index' || document.body.classList.contains('editing')) {
+        return;
+    }
+
+    const header = document.getElementById('page-header');
+    const overview = document.querySelector('.block_myoverview');
+    if (!header || !overview || header.querySelector('.innova-dashboard-intro')) {
+        return;
+    }
+
+    overview.id = 'innova-mis-cursos';
+    const timeline = document.querySelector('.block_timeline');
+    if (timeline) {
+        timeline.id = 'innova-pendientes';
+    }
+
+    const intro = document.createElement('div');
+    intro.className = 'innova-dashboard-intro';
+
+    const copy = document.createElement('div');
+    copy.className = 'innova-dashboard-intro__copy';
+    const description = document.createElement('p');
+    description.textContent = 'Tus cursos y actividades en un solo lugar. Retoma una clase o revisa lo que sigue en tu aprendizaje.';
+    const actions = document.createElement('div');
+    actions.className = 'innova-dashboard-intro__actions';
+    const coursesLink = document.createElement('a');
+    coursesLink.href = '#innova-mis-cursos';
+    coursesLink.textContent = 'Ver mis cursos';
+    actions.appendChild(coursesLink);
+    if (timeline) {
+        const pendingLink = document.createElement('a');
+        pendingLink.href = '#innova-pendientes';
+        pendingLink.textContent = 'Ver pendientes';
+        actions.appendChild(pendingLink);
+    }
+    copy.append(description, actions);
+
+    const next = document.createElement('div');
+    next.className = 'innova-dashboard-next';
+    const label = document.createElement('span');
+    label.className = 'innova-dashboard-next__label';
+    label.textContent = 'CONTINÚA APRENDIENDO';
+    const title = document.createElement('a');
+    title.className = 'innova-dashboard-next__title';
+    title.href = '#innova-mis-cursos';
+    title.textContent = 'Elige un curso para continuar';
+    const detail = document.createElement('span');
+    detail.className = 'innova-dashboard-next__detail';
+    detail.textContent = 'Tus clases están justo debajo';
+    next.append(label, title, detail);
+    intro.append(copy, next);
+    header.appendChild(intro);
+
+    const updateNext = function() {
+        const cards = overview.querySelectorAll('.course-card');
+        if (!cards.length) {
+            return false;
+        }
+        const card = Array.from(cards).find(function(item) {
+            const progress = parseInt(item.querySelector('.progress-text')?.textContent || '0', 10);
+            return progress > 0 && progress < 100;
+        }) || cards[0];
+        const courseLink = card.querySelector('a.coursename');
+        if (!courseLink) {
+            return false;
+        }
+        title.href = courseLink.href;
+        title.textContent = courseLink.querySelector('[title]')?.getAttribute('title') || courseLink.textContent.trim();
+        const progress = card.querySelector('.progress-text')?.textContent.trim();
+        detail.textContent = progress || 'Abre el curso para empezar';
+        return true;
+    };
+
+    if (!updateNext()) {
+        const observer = new MutationObserver(function() {
+            if (updateNext()) {
+                observer.disconnect();
+            }
+        });
+        observer.observe(overview, {childList: true, subtree: true});
+    }
+});
+</script>

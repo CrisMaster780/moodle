@@ -20,6 +20,11 @@
 *~
 #
 /config.php
+/.env
+/.env.production
+/admin-credentials.txt
+/admin-credentials.production.txt
+/test-credentials.txt
 /tags
 /TAGS
 /cscope.*
