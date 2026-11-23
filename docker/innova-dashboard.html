@@ -4,9 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
+    const main = document.querySelector('#page .main-inner');
     const header = document.getElementById('page-header');
+    const content = document.getElementById('page-content');
     const overview = document.querySelector('.block_myoverview');
-    if (!header || !overview || header.querySelector('.innova-dashboard-intro')) {
+    if (!main || !header || !content || !overview || main.querySelector('.innova-dashboard-layout')) {
         return;
     }
 
@@ -16,27 +18,51 @@ document.addEventListener('DOMContentLoaded', function() {
         timeline.id = 'innova-pendientes';
     }
 
+    const layout = document.createElement('div');
+    layout.className = 'innova-dashboard-layout';
+    const sidebar = document.createElement('aside');
+    sidebar.className = 'innova-dashboard-sidebar';
+    sidebar.innerHTML = '<div class="innova-dashboard-sidebar__brand"><span class="innova-dashboard-sidebar__mark">i</span><span><strong>Innova</strong><small>Aula virtual</small></span></div>' +
+        '<nav aria-label="Navegación del estudiante"><span class="innova-dashboard-sidebar__eyebrow">TU ESPACIO</span>' +
+        '<a class="innova-dashboard-sidebar__link is-active" href="/my/" aria-current="page">Área personal</a>' +
+        '<a class="innova-dashboard-sidebar__link" href="#innova-mis-cursos">Mis cursos</a>' +
+        (timeline ? '<a class="innova-dashboard-sidebar__link" href="#innova-pendientes">Pendientes</a>' : '') +
+        '<span class="innova-dashboard-sidebar__eyebrow innova-dashboard-sidebar__eyebrow--courses">TUS CURSOS</span>' +
+        '<div class="innova-dashboard-sidebar__courses"></div></nav>';
+    const workspace = document.createElement('div');
+    workspace.className = 'innova-dashboard-workspace';
+    const blocksDrawer = document.getElementById('theme_boost-drawers-blocks');
+    const blocks = blocksDrawer?.querySelector('.drawercontent > .d-print-none');
+    const rightRail = blocks ? document.createElement('aside') : null;
+    if (rightRail) {
+        rightRail.className = 'innova-dashboard-rail';
+        rightRail.setAttribute('aria-label', 'Calendario y actividad reciente');
+        rightRail.appendChild(blocks);
+    }
+    const headerShell = header.closest('.header-maxwidth') || header;
+    main.insertBefore(layout, headerShell);
+    layout.append(sidebar, workspace);
+    if (rightRail) {
+        layout.appendChild(rightRail);
+        document.body.classList.add('innova-dashboard-ready');
+    }
+    workspace.append(headerShell, content);
+
+    const eyebrow = document.createElement('span');
+    eyebrow.className = 'innova-dashboard-eyebrow';
+    eyebrow.textContent = 'TU AULA, A TU RITMO';
+    header.prepend(eyebrow);
     const intro = document.createElement('div');
     intro.className = 'innova-dashboard-intro';
-
     const copy = document.createElement('div');
     copy.className = 'innova-dashboard-intro__copy';
     const description = document.createElement('p');
-    description.textContent = 'Tus cursos y actividades en un solo lugar. Retoma una clase o revisa lo que sigue en tu aprendizaje.';
-    const actions = document.createElement('div');
-    actions.className = 'innova-dashboard-intro__actions';
+    description.textContent = 'Continúa donde te quedaste y avanza clase por clase.';
     const coursesLink = document.createElement('a');
+    coursesLink.className = 'innova-dashboard-intro__action';
     coursesLink.href = '#innova-mis-cursos';
-    coursesLink.textContent = 'Ver mis cursos';
-    actions.appendChild(coursesLink);
-    if (timeline) {
-        const pendingLink = document.createElement('a');
-        pendingLink.href = '#innova-pendientes';
-        pendingLink.textContent = 'Ver pendientes';
-        actions.appendChild(pendingLink);
-    }
-    copy.append(description, actions);
-
+    coursesLink.textContent = 'Explorar mis cursos';
+    copy.append(description, coursesLink);
     const next = document.createElement('div');
     next.className = 'innova-dashboard-next';
     const label = document.createElement('span');
@@ -53,29 +79,68 @@ document.addEventListener('DOMContentLoaded', function() {
     intro.append(copy, next);
     header.appendChild(intro);
 
-    const updateNext = function() {
-        const cards = overview.querySelectorAll('.course-card');
+    const sectionTitle = overview.querySelector('.card-title');
+    if (sectionTitle) {
+        sectionTitle.textContent = 'Tus cursos';
+    }
+    const timelineTitle = timeline?.querySelector('.card-title');
+    if (timelineTitle) {
+        timelineTitle.textContent = 'Próximas actividades';
+    }
+
+    const readProgress = function(card) {
+        const text = card.querySelector('.progress-text')?.textContent || '';
+        const match = text.match(/(\d+(?:[.,]\d+)?)\s*%/);
+        return match ? Number(match[1].replace(',', '.')) : 0;
+    };
+
+    const updateCourses = function() {
+        const cards = Array.from(overview.querySelectorAll('.course-card'));
         if (!cards.length) {
             return false;
         }
-        const card = Array.from(cards).find(function(item) {
-            const progress = parseInt(item.querySelector('.progress-text')?.textContent || '0', 10);
+        const list = sidebar.querySelector('.innova-dashboard-sidebar__courses');
+        list.replaceChildren();
+        for (const card of cards) {
+            const courseLink = card.querySelector('a.coursename');
+            if (!courseLink) {
+                continue;
+            }
+            const name = courseLink.querySelector('.multiline[title]')?.getAttribute('title') || courseLink.textContent.trim();
+            const sideLink = document.createElement('a');
+            sideLink.className = 'innova-dashboard-sidebar__course';
+            sideLink.href = courseLink.href;
+            sideLink.textContent = name;
+            list.appendChild(sideLink);
+
+            const progress = readProgress(card);
+            const cardBody = card.querySelector('.course-info-container');
+            if (cardBody && !cardBody.querySelector('.innova-course-progress')) {
+                const track = document.createElement('div');
+                track.className = 'innova-course-progress';
+                track.setAttribute('aria-hidden', 'true');
+                const fill = document.createElement('span');
+                fill.style.width = Math.min(100, Math.max(0, progress)) + '%';
+                track.appendChild(fill);
+                cardBody.appendChild(track);
+            }
+        }
+        const featured = cards.find(function(card) {
+            const progress = readProgress(card);
             return progress > 0 && progress < 100;
         }) || cards[0];
-        const courseLink = card.querySelector('a.coursename');
-        if (!courseLink) {
-            return false;
+        const featuredLink = featured.querySelector('a.coursename');
+        if (featuredLink) {
+            title.href = featuredLink.href;
+            title.textContent = featuredLink.querySelector('.multiline[title]')?.getAttribute('title') || featuredLink.textContent.trim();
+            detail.textContent = featured.querySelector('.progress-text')?.textContent.trim() || 'Abre el curso para empezar';
         }
-        title.href = courseLink.href;
-        title.textContent = courseLink.querySelector('[title]')?.getAttribute('title') || courseLink.textContent.trim();
-        const progress = card.querySelector('.progress-text')?.textContent.trim();
-        detail.textContent = progress || 'Abre el curso para empezar';
         return true;
     };
 
-    if (!updateNext()) {
+    if (!updateCourses()) {
         const observer = new MutationObserver(function() {
-            if (updateNext()) {
+            if (updateCourses()) {
                 observer.disconnect();
             }
         });

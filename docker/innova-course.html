@@ -178,6 +178,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
         margin-bottom: 1.5rem;
         padding: 0.75rem;
         background: #11131d;
@@ -190,24 +191,100 @@
         max-height: 70vh;
         margin: auto;
     }
-    body.path-mod-page .innova-lesson-video video:fullscreen,
-    body.path-mod-page .innova-lesson-video video:-webkit-full-screen,
-    body.path-mod-page .innova-lesson-video:fullscreen video,
-    body.path-mod-page .innova-lesson-video:-webkit-full-screen video {
+    body.path-mod-page .innova-lesson-video__expand {
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        z-index: 2;
+        padding: 0.5rem 0.75rem;
+        color: #fff;
+        background: rgba(17, 19, 29, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.7);
+        border-radius: 0.5rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    body.path-mod-page .innova-lesson-video__expand:hover,
+    body.path-mod-page .innova-lesson-video__expand:focus-visible {
+        background: #5038a6;
+    }
+    body.path-mod-page .innova-lesson-video .vjs-fullscreen-control {
+        display: none !important;
+    }
+    body.path-mod-page .innova-lesson-video:fullscreen,
+    body.path-mod-page .innova-lesson-video:-webkit-full-screen,
+    body.path-mod-page .innova-lesson-video.is-expanded {
+        position: fixed !important;
+        inset: 0;
+        z-index: 10000;
         width: 100vw !important;
         height: 100vh !important;
         max-width: none !important;
         max-height: none !important;
-        object-fit: contain;
+        margin: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
         background: #11131d;
+    }
+    body.path-mod-page .innova-lesson-video:fullscreen video,
+    body.path-mod-page .innova-lesson-video:-webkit-full-screen video,
+    body.path-mod-page .innova-lesson-video.is-expanded video,
+    body.path-mod-page .innova-lesson-video video:fullscreen,
+    body.path-mod-page .innova-lesson-video video:-webkit-full-screen {
+        display: block;
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        margin: 0 !important;
+        object-fit: contain;
+        border-radius: 0 !important;
+        background: #11131d;
+    }
+    body.path-mod-page .innova-lesson-video video:fullscreen,
+    body.path-mod-page .innova-lesson-video video:-webkit-full-screen {
+        width: 100vw !important;
+        height: 100vh !important;
+    }
+    body.path-mod-page .innova-lesson-video:fullscreen .mediaplugin_videojs,
+    body.path-mod-page .innova-lesson-video:fullscreen .mediaplugin_videojs > div,
+    body.path-mod-page .innova-lesson-video:fullscreen .video-js,
+    body.path-mod-page .innova-lesson-video:-webkit-full-screen .mediaplugin_videojs,
+    body.path-mod-page .innova-lesson-video:-webkit-full-screen .mediaplugin_videojs > div,
+    body.path-mod-page .innova-lesson-video:-webkit-full-screen .video-js,
+    body.path-mod-page .innova-lesson-video.is-expanded .mediaplugin_videojs,
+    body.path-mod-page .innova-lesson-video.is-expanded .mediaplugin_videojs > div,
+    body.path-mod-page .innova-lesson-video.is-expanded .video-js {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        padding: 0 !important;
+    }
+    body.path-mod-page .innova-lesson-video .video-js:fullscreen,
+    body.path-mod-page .innova-lesson-video .video-js:-webkit-full-screen,
+    body.path-mod-page .innova-lesson-video .video-js.vjs-fullscreen {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: none !important;
+        max-height: none !important;
+        padding-top: 0 !important;
         border-radius: 0 !important;
     }
-    body.path-mod-page .innova-lesson-video:fullscreen,
-    body.path-mod-page .innova-lesson-video:-webkit-full-screen {
-        width: 100vw;
-        height: 100vh;
-        padding: 0;
-        border-radius: 0;
+    body.path-mod-page .innova-lesson-video:fullscreen .vjs-tech,
+    body.path-mod-page .innova-lesson-video:-webkit-full-screen .vjs-tech,
+    body.path-mod-page .innova-lesson-video.is-expanded .vjs-tech,
+    body.path-mod-page .innova-lesson-video .video-js:fullscreen .vjs-tech,
+    body.path-mod-page .innova-lesson-video .video-js.vjs-fullscreen .vjs-tech {
+        width: 100% !important;
+        height: 100% !important;
+        max-width: none !important;
+        max-height: none !important;
+        object-fit: contain !important;
+    }
+    body.innova-video-expanded {
+        overflow: hidden;
     }
     @media (max-width: 767.98px) {
         .innova-course-hero {
@@ -234,6 +311,19 @@
 </style>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        if ((document.body.classList.contains('path-course-view') || document.body.classList.contains('path-mod')) &&
+                window.matchMedia('(min-width: 992px)').matches) {
+            const drawer = document.getElementById('theme_boost-drawers-courseindex');
+            if (drawer && !drawer.classList.contains('show') && typeof window.require === 'function') {
+                window.require(['theme_boost/drawers'], function(module) {
+                    const Drawers = module.default || module;
+                    if (!drawer.classList.contains('show')) {
+                        Drawers.getDrawerInstanceForNode(drawer).openDrawer({focusOnCloseButton: false});
+                    }
+                });
+            }
+        }
+
         if (!document.body.classList.contains('path-course-view') || document.body.classList.contains('editing')) {
             return;
         }
@@ -310,4 +400,100 @@
         }
         content.prepend(hero);
     });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const frame = document.querySelector('body.path-mod-page .innova-lesson-video');
+    const video = frame?.querySelector('video');
+    if (!video || frame.querySelector('.innova-lesson-video__expand')) {
+        return;
+    }
+
+    // Chrome's native video fullscreen keeps the inline lesson dimensions.
+    // Use the player frame instead, so the video can fill the available screen.
+    video.setAttribute('controlslist', 'nofullscreen');
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'innova-lesson-video__expand';
+    button.textContent = '⛶ Pantalla completa';
+    button.setAttribute('aria-label', 'Ver video en pantalla completa');
+    button.setAttribute('aria-pressed', 'false');
+    frame.appendChild(button);
+
+    const drawer = document.getElementById('theme_boost-drawers-courseindex');
+    let drawerWasOpen = false;
+    let fullscreenSession = false;
+
+    const restoreCourseIndex = function() {
+        if (!drawerWasOpen || !drawer || drawer.classList.contains('show')) {
+            return;
+        }
+        if (typeof window.require === 'function') {
+            window.require(['theme_boost/drawers'], function(module) {
+                const Drawers = module.default || module;
+                if (!drawer.classList.contains('show')) {
+                    Drawers.getDrawerInstanceForNode(drawer).openDrawer({
+                        focusOnCloseButton: false,
+                        setUserPref: true
+                    });
+                }
+            });
+        } else {
+            document.querySelector('[data-toggler="drawers"][data-target="theme_boost-drawers-courseindex"]')?.click();
+        }
+    };
+
+    const finishFullscreenSession = function() {
+        if (!fullscreenSession) {
+            return;
+        }
+        fullscreenSession = false;
+        restoreCourseIndex();
+        // Moodle also reacts to viewport resize after the fullscreen event.
+        window.setTimeout(restoreCourseIndex, 550);
+    };
+
+    const syncButton = function() {
+        const active = document.fullscreenElement === frame || frame.classList.contains('is-expanded');
+        button.textContent = active ? 'Salir de pantalla completa' : '⛶ Pantalla completa';
+        button.setAttribute('aria-pressed', String(active));
+        button.setAttribute('aria-label', active ? 'Salir de pantalla completa' : 'Ver video en pantalla completa');
+    };
+
+    button.addEventListener('click', async function() {
+        if (document.fullscreenElement === frame) {
+            await document.exitFullscreen();
+            finishFullscreenSession();
+        } else if (frame.classList.contains('is-expanded')) {
+            frame.classList.remove('is-expanded');
+            document.body.classList.remove('innova-video-expanded');
+            finishFullscreenSession();
+        } else {
+            drawerWasOpen = !!drawer?.classList.contains('show');
+            fullscreenSession = true;
+            try {
+                await frame.requestFullscreen();
+            } catch (error) {
+                frame.classList.add('is-expanded');
+                document.body.classList.add('innova-video-expanded');
+            }
+        }
+        syncButton();
+    });
+
+    document.addEventListener('fullscreenchange', function() {
+        syncButton();
+        if (!document.fullscreenElement && !frame.classList.contains('is-expanded')) {
+            finishFullscreenSession();
+        }
+    });
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && frame.classList.contains('is-expanded')) {
+            frame.classList.remove('is-expanded');
+            document.body.classList.remove('innova-video-expanded');
+            syncButton();
+            finishFullscreenSession();
+        }
+    });
+});
 </script>
