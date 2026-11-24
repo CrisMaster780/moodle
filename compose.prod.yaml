@@ -25,6 +25,7 @@ services:
     volumes: &moodle_volumes
       - ./:/var/www/moodle:ro
       - moodle_data:/var/www/moodledata
+      - ./docker/moodle-production.ini:/usr/local/etc/php/conf.d/zz-moodle-production.ini:ro
     depends_on:
       db:
         condition: service_healthy
@@ -35,7 +36,7 @@ services:
     user: www-data
     environment: *moodle_environment
     volumes: *moodle_volumes
-    command: ["sh", "-c", "while :; do php admin/cli/cron.php; sleep 60; done"]
+    command: ["sh", "-c", "while :; do php admin/cli/cron.php --keep-alive=0; sleep 60; done"]
     depends_on:
       db:
         condition: service_healthy

@@ -423,18 +423,36 @@ document.addEventListener('DOMContentLoaded', function() {
     const drawer = document.getElementById('theme_boost-drawers-courseindex');
     let drawerWasOpen = false;
     let fullscreenSession = false;
+    let restoreTimer = null;
+
+    const closeCourseIndex = function() {
+        if (!drawer?.classList.contains('show') || typeof window.require !== 'function') {
+            return;
+        }
+        window.require(['theme_boost/drawers'], function(module) {
+            const Drawers = module.default || module;
+            if (fullscreenSession && drawer.classList.contains('show')) {
+                Drawers.getDrawerInstanceForNode(drawer).closeDrawer({
+                    focusOnOpenButton: false,
+                    updatePreferences: false
+                });
+            }
+        });
+    };
 
     const restoreCourseIndex = function() {
-        if (!drawerWasOpen || !drawer || drawer.classList.contains('show')) {
+        if (!drawerWasOpen || !drawer || drawer.classList.contains('show') ||
+                document.fullscreenElement || frame.classList.contains('is-expanded') ||
+                !window.matchMedia('(min-width: 992px)').matches) {
             return;
         }
         if (typeof window.require === 'function') {
             window.require(['theme_boost/drawers'], function(module) {
                 const Drawers = module.default || module;
-                if (!drawer.classList.contains('show')) {
+                if (!fullscreenSession && !drawer.classList.contains('show')) {
                     Drawers.getDrawerInstanceForNode(drawer).openDrawer({
                         focusOnCloseButton: false,
-                        setUserPref: true
+                        setUserPref: false
                     });
                 }
             });
@@ -448,9 +466,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         fullscreenSession = false;
-        restoreCourseIndex();
-        // Moodle also reacts to viewport resize after the fullscreen event.
-        window.setTimeout(restoreCourseIndex, 550);
+        window.clearTimeout(restoreTimer);
+        // Wait until Moodle's debounced resize handler has finished.
+        restoreTimer = window.setTimeout(restoreCourseIndex, 650);
     };
 
     const syncButton = function() {
@@ -469,8 +487,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.classList.remove('innova-video-expanded');
             finishFullscreenSession();
         } else {
+            window.clearTimeout(restoreTimer);
             drawerWasOpen = !!drawer?.classList.contains('show');
             fullscreenSession = true;
+            closeCourseIndex();
             try {
                 await frame.requestFullscreen();
             } catch (error) {

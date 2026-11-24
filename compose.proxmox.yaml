@@ -1,0 +1,49 @@
+name: innova-moodle
+
+services:
+  db:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_DB: moodle
+      POSTGRES_USER: moodle
+      POSTGRES_PASSWORD: ${MOODLE_DB_PASSWORD:?Set MOODLE_DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moodle -d moodle"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  web:
+    build: .
+    environment: &moodle_environment
+      MOODLE_DB_PASSWORD: ${MOODLE_DB_PASSWORD:?Set MOODLE_DB_PASSWORD}
+      MOODLE_WWWROOT: https://${MOODLE_DOMAIN:?Set MOODLE_DOMAIN}
+      MOODLE_SSLPROXY: "1"
+    volumes: &moodle_volumes
+      - ./:/var/www/moodle:ro
+      - moodle_data:/var/www/moodledata
+      - ./docker/moodle-production.ini:/usr/local/etc/php/conf.d/zz-moodle-production.ini:ro
+    ports:
+      - "${MOODLE_BIND_IP:?Set MOODLE_BIND_IP}:8080:80"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  cron:
+    build: .
+    user: www-data
+    environment: *moodle_environment
+    volumes: *moodle_volumes
+    command: ["sh", "-c", "while :; do php admin/cli/cron.php --keep-alive=0; sleep 60; done"]
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  moodle_data:
